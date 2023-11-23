@@ -25,6 +25,7 @@ jobs:
         ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts
 
         ssh -o StrictHostKeyChecking=no $USERNAME@$HOST << EOF
+          sudo apt-get remove -y libnode-dev nodejs
           curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
           sudo apt-get install -y nodejs
           node -v
