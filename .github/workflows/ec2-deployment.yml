@@ -34,13 +34,13 @@ jobs:
           else
             echo "Node.js version is $NODE_VERSION. No need to install."
           fi
-            cd ~/frappe-bench/apps/erpnext
-            git pull
-            node -v
-            cd ~/frappe-bench
-            sudo kill -9 \$(sudo lsof -t -i:8000)
-            sudo kill -9 \$(sudo lsof -t -i:11000)
-            sudo kill -9 \$(sudo lsof -t -i:13000)
-            screen
-            bench start
+          cd ~/frappe-bench/apps/erpnext
+          git pull
+          node -v
+          cd ~/frappe-bench
+          sudo kill -9 \$(sudo lsof -t -i:8000)
+          sudo kill -9 \$(sudo lsof -t -i:11000)
+          sudo kill -9 \$(sudo lsof -t -i:13000)
+          screen
+          bench start
         EOF
