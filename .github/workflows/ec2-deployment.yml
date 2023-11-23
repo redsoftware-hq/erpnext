@@ -25,11 +25,9 @@ jobs:
         ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts
 
         ssh -o StrictHostKeyChecking=no $USERNAME@$HOST << EOF
-          sudo apt install curl 
-          curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-          source ~/.profile
-          nvm install 18          
-          node -v
+          sudo source ~/.profile
+          sudo nvm install 18          
+          sudo node -v
           cd ~/frappe-bench/apps/erpnext
           git pull
           cd ~/frappe-bench
