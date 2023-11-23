@@ -25,8 +25,8 @@ jobs:
         ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts
 
         ssh -o StrictHostKeyChecking=no $USERNAME@$HOST << EOF
-          sudo apt update
-          sudo apt install nodejs
+          curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+          sudo apt-get install -y nodejs
           node -v
           cd ~/frappe-bench/apps/erpnext
           git pull
