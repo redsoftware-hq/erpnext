@@ -25,6 +25,7 @@ jobs:
         ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts
 
         ssh -o StrictHostKeyChecking=no $USERNAME@$HOST << EOF
+          source ~/.bashrc
           node -v
           cd ~/frappe-bench/apps/erpnext
           git pull
