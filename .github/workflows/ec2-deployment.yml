@@ -35,4 +35,5 @@ jobs:
           sudo kill -9 \$(sudo lsof -t -i:13000)
           screen
           bench start
+          exit
         EOF
