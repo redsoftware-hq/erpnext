@@ -25,14 +25,14 @@ jobs:
         ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts
 
         ssh -o StrictHostKeyChecking=no $USERNAME@$HOST << EOF
-          NODE_VERSION=$(node -v)
-          MIN_VERSION="v18"
-          if [ "$(printf '%s\n' "$MIN_VERSION" "$NODE_VERSION" | sort -V | head -n1)" != "$MIN_VERSION" ]; then
-            echo "Node.js is below version 18. Installing Node.js 18..."
+          INSTALLED_NODE_VERSION=$(node -v | grep -oP 'v\K\d+')
+          REQUIRED_NODE_MAJOR_VERSION=18
+          if [ -z "$INSTALLED_NODE_VERSION" ] || [ "$INSTALLED_NODE_VERSION" -lt "$REQUIRED_NODE_MAJOR_VERSION" ]; then
+            echo "Node.js version is below 18. Installing Node.js 18..."
             curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
             sudo apt-get install -y nodejs
           else
-            echo "Node.js version is $NODE_VERSION. No need to install."
+            echo "Node.js version is $INSTALLED_NODE_VERSION. No need to install."
           fi
           cd ~/frappe-bench/apps/erpnext
           git pull
