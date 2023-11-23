@@ -25,15 +25,8 @@ jobs:
         ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts
 
         ssh -o StrictHostKeyChecking=no $USERNAME@$HOST << EOF
-          INSTALLED_NODE_VERSION=$(node -v | grep -oP 'v\K\d+')
-          REQUIRED_NODE_MAJOR_VERSION=18
-          if [ -z "$INSTALLED_NODE_VERSION" ] || [ "$INSTALLED_NODE_VERSION" -lt "$REQUIRED_NODE_MAJOR_VERSION" ]; then
-            echo "Node.js version is below 18. Installing Node.js 18..."
-            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-            sudo apt-get install -y nodejs
-          else
-            echo "Node.js version is $INSTALLED_NODE_VERSION. No need to install."
-          fi
+          node -v
+          nano ~/.bashrc
           cd ~/frappe-bench/apps/erpnext
           git pull
           node -v
