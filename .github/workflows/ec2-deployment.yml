@@ -26,7 +26,7 @@ jobs:
 
         ssh -o StrictHostKeyChecking=no $USERNAME@$HOST << EOF
           node -v
-          nano ~/.bashrc
+          cat ~/.bashrc
           cd ~/frappe-bench/apps/erpnext
           git pull
           node -v
