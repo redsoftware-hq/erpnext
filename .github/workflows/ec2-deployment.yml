@@ -1,0 +1,47 @@
+name: EC2 Command Execution
+
+on: [push]
+
+jobs:
+  execute-command:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Set up Node.js 18
+      uses: actions/setup-node@v2
+      with:
+        node-version: 18
+
+    - name: Execute commands on EC2
+      env:
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts
+
+        EOF
+        ssh -o StrictHostKeyChecking=no $USERNAME@$HOST << EOF
+          NODE_VERSION=$(node -v)
+          MIN_VERSION="v18"
+          if [ "$(printf '%s\n' "$MIN_VERSION" "$NODE_VERSION" | sort -V | head -n1)" != "$MIN_VERSION" ]; then
+            echo "Node.js is below version 18. Installing Node.js 18..."
+            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+          else
+            echo "Node.js version is $NODE_VERSION. No need to install."
+          fi
+            cd ~/frappe-bench/apps/erpnext
+            git pull
+            node -v
+            cd ~/frappe-bench
+            sudo kill -9 \$(sudo lsof -t -i:8000)
+            sudo kill -9 \$(sudo lsof -t -i:11000)
+            sudo kill -9 \$(sudo lsof -t -i:13000)
+            screen
+            bench start
+        EOF
